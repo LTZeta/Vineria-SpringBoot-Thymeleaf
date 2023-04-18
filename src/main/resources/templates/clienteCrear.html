@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <title>Crear cliente</title>
+</head>
+
+<body>
+
+  <header>
+    <div class="encabezado">
+      <h1 class="nombre-empresa">Distribuidora Don Torcuato</h1>
+    </div>
+    <div class="items">
+      <ul class="nav nav-pills nav-fill">
+        <li class="nav-itemS">
+          <a class="nav-link link link-dark" th:href="@{/productos}">Productos</a>
+        </li>
+        <li>
+          <a class="nav-link link link-dark" th:href="@{/productos/inventario}">Inventario</a>
+        </li>
+        <li>
+          <a class="nav-link link link-dark" th:href="@{/clientes}">Clientes</a>
+        </li>
+        <li>
+          <a class="nav-link link link-dark" th:href="@{/proveedores}">Proveedores</a>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <h2 class="m-3">Crear cliente</h2>
+    <div>
+      <form class="m-3" th:action="@{/clientes/crearCliente}" method="post">
+        <div class="form-group crear-general-form">
+          <label for="nombre">NOMBRE</label>
+          <input type="nombre" class="form-control" id="nombre" name="nombre" aria-describedby="clienteHelp"
+            placeholder="Ingresa nombre del cliente">
+          <small id="clienteHelp" class="form-text text-muted">Ej: Don Angel</small>
+        </div>
+        <br>
+        <div class="form-group crear-general-form">
+          <label for="clienteDomicilio">DOMICILIO</label>
+          <input type="clienteDomicilio" class="form-control" id="clienteDomicilio" name="domicilio"
+            placeholder="Domicilio">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-success mb-2 m-3">Agregar</button>
+      </form>
+      <div th:if="${creado}">
+        <h3 class="m-3">El cliente fue creado con éxito</h3>
+      </div>
+      <div th:if="${creado} == false">
+        <h3 class="m-3" th:text="${errorCreado}"></h3>
+      </div>
+    </div>
+  </main>
+
+</body>
+
+</html>

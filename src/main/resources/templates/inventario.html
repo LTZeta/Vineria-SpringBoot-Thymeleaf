@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <title>Productos</title>
+</head>
+
+<body>
+
+  <header>
+    <div class="encabezado">
+      <h1 class="nombre-empresa">Distribuidora Don Torcuato</h1>
+    </div>
+    <div class="items">
+      <ul class="nav nav-pills nav-fill">
+        <li class="nav-itemS">
+          <a class="nav-link link link-dark" th:href="@{/productos}">Productos</a>
+        </li>
+        <li>
+          <a class="nav-link link link-dark" th:href="@{/productos/inventario}">Inventario</a>
+        </li>
+        <li>
+          <a class="nav-link link link-dark" th:href="@{/clientes}">Clientes</a>
+        </li>
+        <li>
+          <a class="nav-link link link-dark" th:href="@{/proveedores}">Proveedores</a>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <h2 class="titulo m-3">Inventario</h2>
+
+    <form th:action="@{/productos/buscarPorDescripcion}" method="post">
+      <div class="input-group mb-2">
+        <input type="search" name="busqueda" class="form-control rounded" placeholder="Descripcion" aria-label="Search"
+          aria-describedby="search-addon" />
+        <button type="submit" class="btn btn-outline-primary">Buscar</button>
+      </div>
+    </form>
+    <div>
+      <table class="table tabla-inventario">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">DESCRIPCION</th>
+            <th scope="col">STOCK</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="producto : ${productos}">
+            <th scope="row"><span th:text="${producto.descripcion}"></span></th>
+            <th scope="row"><span th:text="${producto.stock}"></span></th>
+          </tr>
+        </tbody>
+      </table>
+      <div th:if="${sinProductos}">
+        <span th:text="${errorSinProductos}" class="m-3 h3"></span>
+      </div>
+      <div th:if="${noEncontrado}">
+        <span th:text="${errorNoEncontrado}" class="m-3 h3"></span>
+      </div>
+    </div>
+  </main>
+
+</body>
+
+</html>

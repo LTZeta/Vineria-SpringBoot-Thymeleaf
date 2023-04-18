@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Productos del Proveedor</title>
+</head>
+
+<body>
+
+    <header>
+        <div class="encabezado">
+            <h1 class="nombre-empresa">Distribuidora Don Torcuato</h1>
+        </div>
+        <div class="items">
+            <ul class="nav nav-pills nav-fill">
+                <li class="nav-itemS">
+                    <a class="nav-link link link-dark" th:href="@{/productos}">Productos</a>
+                </li>
+                <li>
+                    <a class="nav-link link link-dark" th:href="@{/productos/inventario}">Inventario</a>
+                </li>
+                <li>
+                    <a class="nav-link link link-dark" th:href="@{/clientes}">Clientes</a>
+                </li>
+                <li>
+                    <a class="nav-link link link-dark" th:href="@{/proveedores}">Proveedores</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <h2 class="titulo m-3" th:text="${titulo}"></h2>
+
+        <a class="btn btn-success mb-4 m-3" th:href="@{/proveedores/agregarProducto/__${proveedor.id}__}">Agregar
+            Productos</a>
+
+        <form th:action="@{/proveedores/buscarProductoPorDescripcion}" method="post">
+            <div class="input-group mb-2">
+                <input type="number" hidden th:value="${proveedor.id}" name="id" />
+                <input type="search" name="busqueda" class="form-control rounded" placeholder="Descripcion"
+                    aria-label="Search" aria-describedby="search-addon" />
+                <button type="submit" class="btn btn-outline-primary">Buscar</button>
+            </div>
+        </form>
+        <div>
+            <table class="table tabla-proveedores">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">DESCRIPCION</th>
+                        <th scope="col">PRECIO</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="proveedorProducto : ${proveedorProductos}">
+                        <th scope="row"><span th:text="${proveedorProducto.producto.descripcion}"></span></th>
+                        <th scope="row"><span th:text="${proveedorProducto.precio}"></span></th>
+                        <td>
+                            <a class="btn btn-light"
+                                th:href="@{/proveedores/actualizarProducto/__${proveedor.id}__/__${proveedorProducto.producto.id}__}">Editar
+                                <i class="fa fa-edit"></i></a>
+                        </td>
+                        <td>
+                            <form th:action="@{/proveedores/eliminarProducto}" method="post">
+                                <input type="hidden" name="idProductoProveedor" th:value="${proveedorProducto.id}" />
+                                <button type="submit" class="btn btn-danger">Eliminar<i class="fa fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div th:if="${sinProductos}">
+                <span th:text="${errorSinProductos}" class="m-3 h3"></span>
+            </div>
+            <div th:if="${noEncontrado}">
+                <span th:text="${errorNoEncontrado}" class="m-3 h3"></span>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>
