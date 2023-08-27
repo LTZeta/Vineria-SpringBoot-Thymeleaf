@@ -72,6 +72,22 @@ public class ProductoControlador {
 
     }
 
+    @PostMapping("/inventario/buscarPorDescripcion")
+    public String inventarioBuscarPorDescripcion(ModelMap model, @RequestParam String busqueda){
+
+        try {
+            List<Producto> resultado = productoServicio.busquedaPorMatching(busqueda);
+            model.put("productos", resultado);
+            model.put("noEncontrado", false);
+            return "inventario.html";
+        }catch (Exception e){
+            model.put("noEncontrado", true);
+            model.put("errorNoEncontrado", e.getMessage());
+            return "inventario.html";
+        }
+
+    }
+
     @GetMapping("/crearProducto")
     public String mostrarCrearProducto(ModelMap model){
         return "productoCrear.html";
